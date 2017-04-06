@@ -17,6 +17,15 @@ public class Rest implements Parcelable {
     String date = "";
     int catnumber = 0;
 
+    public Rest(String name, String tel, ArrayList<String> menu, String homepage, String date, int catnumber) {
+        this.name = name;
+        this.tel = tel;
+        this.menu = menu;
+        this.homepage = homepage;
+        this.date = date;
+        this.catnumber = catnumber;
+    }
+
     protected Rest(Parcel in) {
         name = in.readString();
         tel = in.readString();
