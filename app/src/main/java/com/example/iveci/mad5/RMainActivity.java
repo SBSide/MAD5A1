@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,31 +55,40 @@ public class RMainActivity extends AppCompatActivity {
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                final int pos = position;
-                AlertDialog.Builder dlg = new AlertDialog.Builder(getApplicationContext());
-                dlg.setTitle("맛집삭제")
-                        .setMessage("맛집을 삭제합니다. 계속합니까?")
-                        .setNegativeButton("아뇨", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(getApplicationContext(),
-                                        "취소했습니다..",Toast.LENGTH_SHORT)
-                                        .show();
-                            }
-                        })
-                        .setPositiveButton("예", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                rdata.remove(pos);
-                                adapter.notifyDataSetChanged();
-                                rnum.setText("맛집 리스트("+rdata.size()+"개)");
-                                Toast.makeText(getApplicationContext(),
-                                        "맛집을 삭제했습니다.",Toast.LENGTH_SHORT)
-                                        .show();
-                            }
-                        }).show();
+                createDialog(position);
                 return false;
             }
         });
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
+    }
+    public void createDialog(int pos){
+        AlertDialog.Builder dlg = new AlertDialog.Builder(this);
+        final int position = pos;
+        dlg.setTitle("맛집삭제")
+                .setMessage("맛집을 삭제합니다. 계속합니까?")
+                .setNegativeButton("아뇨", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getApplicationContext(),
+                                "취소했습니다..",Toast.LENGTH_SHORT)
+                                .show();
+                    }
+                })
+                .setPositiveButton("예", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        rdata.remove(position);
+                        adapter.notifyDataSetChanged();
+                        rnum.setText("맛집 리스트("+rdata.size()+"개)");
+                        Toast.makeText(getApplicationContext(),
+                                "맛집을 삭제했습니다.",Toast.LENGTH_SHORT)
+                                .show();
+                    }
+                }).show();
     }
 }
