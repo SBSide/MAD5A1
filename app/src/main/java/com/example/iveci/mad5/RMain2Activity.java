@@ -51,7 +51,7 @@ public class RMain2Activity extends Activity {
                     tel.getText().toString(),
                     Menu,
                     hp.getText().toString(),
-                    " " + new SimpleDateFormat("yyyyMMdd HH:mm").format(new Date(System.currentTimeMillis())),
+                    " " + new SimpleDateFormat("yyyyMMdd").format(new Date(System.currentTimeMillis())),
                     cat);
             intent.putExtra("name", rest);
             setResult(RESULT_OK,intent);

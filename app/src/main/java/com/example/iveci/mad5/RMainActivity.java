@@ -53,13 +53,6 @@ public class RMainActivity extends AppCompatActivity {
         lv = (ListView) findViewById(R.id.listview);
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,rdata);
         lv.setAdapter(adapter);
-        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                createDialog(position);
-                return false;
-            }
-        });
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -68,6 +61,14 @@ public class RMainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                createDialog(position);
+                return false;
+            }
+        });
+
     }
     public void createDialog(int pos){
         AlertDialog.Builder dlg = new AlertDialog.Builder(this);
