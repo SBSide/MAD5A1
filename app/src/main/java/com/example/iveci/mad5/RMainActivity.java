@@ -18,6 +18,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 public class RMainActivity extends AppCompatActivity {
+    final int NEW = 11;
     ListView lv;
     TextView rnum;
     ArrayList<Rest> rdata = new ArrayList<>();
@@ -31,11 +32,11 @@ public class RMainActivity extends AppCompatActivity {
     }
     public void onClick(View v){
         Intent intent = new Intent(this,RMain2Activity.class);
-        startActivityForResult(intent,11);
+        startActivityForResult(intent,NEW);
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 11){
+        if (requestCode == NEW){
             if(resultCode == RESULT_OK){
                 Rest accept = data.getParcelableExtra("name");
                 rdata.add(accept);
@@ -62,7 +63,9 @@ public class RMainActivity extends AppCompatActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                Intent intent = new Intent(view.getContext(),RMain3Activity.class);
+                intent.putExtra("info",rdata.get(position));
+                startActivity(intent);
             }
         });
     }
