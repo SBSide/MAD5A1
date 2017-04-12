@@ -2,7 +2,6 @@ package com.example.iveci.mad5;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,9 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 public class RMainActivity extends AppCompatActivity {
@@ -65,7 +62,7 @@ public class RMainActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 createDialog(position);
-                return false;
+                return true;
             }
         });
 
