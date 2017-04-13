@@ -19,9 +19,10 @@ public class RMainActivity extends AppCompatActivity {
     ListView lv;
     TextView rnum;
     ArrayList<Rest> rdata = new ArrayList<>();
-    ArrayAdapter<Rest> adapter;
+    RestAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTitle("나의 맛집");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rmain);
         rnum = (TextView) findViewById(R.id.tv);
@@ -48,7 +49,7 @@ public class RMainActivity extends AppCompatActivity {
 
     public void setListView(){
         lv = (ListView) findViewById(R.id.listview);
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,rdata);
+        adapter = new RestAdapter(this,rdata);
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
