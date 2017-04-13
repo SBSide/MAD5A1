@@ -16,6 +16,7 @@ public class Rest implements Parcelable {
     String homepage = "";
     String date = "";
     int catnumber = 0;
+    boolean checked = false;
 
     public Rest(String name, String tel, ArrayList<String> menu, String homepage, String date, int catnumber) {
         this.name = name;
@@ -24,7 +25,9 @@ public class Rest implements Parcelable {
         this.homepage = homepage;
         this.date = date;
         this.catnumber = catnumber;
+        this.checked = false;
     }
+
 
     protected Rest(Parcel in) {
         name = in.readString();
@@ -33,6 +36,7 @@ public class Rest implements Parcelable {
         homepage = in.readString();
         date = in.readString();
         catnumber = in.readInt();
+        checked = in.readByte() != 0;
     }
 
     public static final Creator<Rest> CREATOR = new Creator<Rest>() {
@@ -60,10 +64,12 @@ public class Rest implements Parcelable {
         dest.writeString(homepage);
         dest.writeString(date);
         dest.writeInt(catnumber);
+        dest.writeByte((byte) (checked ? 1 : 0));
     }
 
     @Override
     public String toString() {
         return name;
     }
+
 }

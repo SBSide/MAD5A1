@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,19 +20,41 @@ public class RMainActivity extends AppCompatActivity {
     final int NEW = 11;
     ListView lv;
     TextView rnum;
+    Button brem,bsel;
     ArrayList<Rest> rdata = new ArrayList<>();
     RestAdapter adapter;
+    CheckBox c1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTitle("나의 맛집");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rmain);
         rnum = (TextView) findViewById(R.id.tv);
+        brem = (Button) findViewById(R.id.bremove);
+        bsel = (Button) findViewById(R.id.bselect);
+        c1   = (CheckBox) findViewById(R.id.checkBox);
         setListView();
     }
     public void onClick(View v){
-        Intent intent = new Intent(this,RMain2Activity.class);
-        startActivityForResult(intent,NEW);
+        if (v.getId() == R.id.badd){
+            Intent intent = new Intent(this,RMain2Activity.class);
+            startActivityForResult(intent,NEW);
+        }
+        else if (v.getId() == R.id.bsname) {
+            adapter.setAscSort(true);
+        }
+        else if (v.getId() == R.id.bscat) {
+            adapter.setAscSort(false);
+        }
+        else if (v.getId() == R.id.bremove) {
+            createDialog();
+        }
+        else if (v.getId() == R.id.bselect) {
+            bsel.setVisibility(View.INVISIBLE);
+            brem.setVisibility(View.VISIBLE);
+            adapter.ViewCheckbox(true);
+        }
+
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -39,7 +63,6 @@ public class RMainActivity extends AppCompatActivity {
                 Rest accept = data.getParcelableExtra("name");
                 rdata.add(accept);
                 adapter.notifyDataSetChanged();
-                rnum.setText("맛집 리스트("+rdata.size()+"개)");
                 Toast.makeText(getApplicationContext(),"입력했습니다.",Toast.LENGTH_SHORT).show();
             }
             else Toast.makeText(getApplicationContext(),"입력을 취소했습니다.",Toast.LENGTH_SHORT).show();
@@ -59,20 +82,11 @@ public class RMainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                createDialog(position);
-                return true;
-            }
-        });
-
     }
-    public void createDialog(int pos){
+    public void createDialog(){
         AlertDialog.Builder dlg = new AlertDialog.Builder(this);
-        final int position = pos;
         dlg.setTitle("맛집삭제")
-                .setMessage("맛집을 삭제합니다. 계속합니까?")
+                .setMessage("선택한 맛집을 삭제합니다. 계속합니까?")
                 .setNegativeButton("아뇨", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -84,9 +98,13 @@ public class RMainActivity extends AppCompatActivity {
                 .setPositiveButton("예", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        rdata.remove(position);
+                        for (int i=0; i < rdata.size(); i++){
+                            if (rdata.get(i).checked) rdata.remove(i);
+                        }
+                        bsel.setVisibility(View.VISIBLE);
+                        brem.setVisibility(View.INVISIBLE);
+                        adapter.ViewCheckbox(false);
                         adapter.notifyDataSetChanged();
-                        rnum.setText("맛집 리스트("+rdata.size()+"개)");
                         Toast.makeText(getApplicationContext(),
                                 "맛집을 삭제했습니다.",Toast.LENGTH_SHORT)
                                 .show();
