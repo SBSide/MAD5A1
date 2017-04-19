@@ -93,18 +93,21 @@ public class RMainActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),
                                 "취소했습니다..",Toast.LENGTH_SHORT)
                                 .show();
+                        bsel.setVisibility(View.VISIBLE);
+                        brem.setVisibility(View.INVISIBLE);
+                        adapter.ViewCheckbox(false);
                     }
                 })
                 .setPositiveButton("예", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        for (int i=0; i < rdata.size(); i++){
+                        for (int i = 0 ; i < rdata.size();){
                             if (rdata.get(i).checked) rdata.remove(i);
+                            else i++;
                         }
                         bsel.setVisibility(View.VISIBLE);
                         brem.setVisibility(View.INVISIBLE);
                         adapter.ViewCheckbox(false);
-                        adapter.notifyDataSetChanged();
                         Toast.makeText(getApplicationContext(),
                                 "맛집을 삭제했습니다.",Toast.LENGTH_SHORT)
                                 .show();
