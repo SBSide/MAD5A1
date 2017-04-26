@@ -45,6 +45,10 @@ public class RestAdapter extends BaseAdapter implements Filterable {
         return filtereddata.get(position);
     }
 
+    public void addItem(Rest rest) {
+
+    }
+
     @Override
     public long getItemId(int position) {
         return position;
@@ -60,7 +64,7 @@ public class RestAdapter extends BaseAdapter implements Filterable {
         TextView t2 = (TextView) convertView.findViewById(R.id.tresttel);
         ImageView img = (ImageView) convertView.findViewById(R.id.cimg);
         c1 = (CheckBox) convertView.findViewById(R.id.checkBox);
-        final Rest td = data.get(position);
+        final Rest td = filtereddata.get(position);
         t1.setText(td.name);
         t2.setText(td.tel);
         if(td.catnumber == 1) img.setImageResource(R.drawable.chicken);
