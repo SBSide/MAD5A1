@@ -5,11 +5,14 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,7 +22,7 @@ import java.util.ArrayList;
 public class RMainActivity extends AppCompatActivity {
     final int NEW = 11;
     ListView lv;
-    TextView rnum;
+    EditText rnum;
     Button brem,bsel;
     ArrayList<Rest> rdata = new ArrayList<>();
     RestAdapter adapter;
@@ -29,11 +32,31 @@ public class RMainActivity extends AppCompatActivity {
         setTitle("나의 맛집");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rmain);
-        rnum = (TextView) findViewById(R.id.tv);
+        rnum = (EditText) findViewById(R.id.tv);
         brem = (Button) findViewById(R.id.bremove);
         bsel = (Button) findViewById(R.id.bselect);
         c1   = (CheckBox) findViewById(R.id.checkBox);
         setListView();
+        rnum.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                String sr = s.toString();
+                if(sr.length() > 0) {
+                    lv.setFilterText(sr);
+                }
+                else lv.clearTextFilter();
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+        });
     }
     public void onClick(View v){
         if (v.getId() == R.id.badd){

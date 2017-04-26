@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,25 +21,28 @@ import java.util.Comparator;
  * Created by iveci on 2017-04-13.
  */
 
-public class RestAdapter extends BaseAdapter {
+public class RestAdapter extends BaseAdapter implements Filterable {
     ArrayList<Rest> data = new ArrayList<>();
+    ArrayList<Rest> filtereddata = data;
     Context context;
     CheckBox c1;
     Boolean vis = false;
+    Filter restFilter;
 
     public RestAdapter(Context context, ArrayList<Rest> data) {
         this.context = context;
         this.data = data;
+        this.filtereddata = data;
     }
 
     @Override
     public int getCount() {
-        return data.size();
+        return filtereddata.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return data.get(position);
+        return filtereddata.get(position);
     }
 
     @Override
@@ -96,5 +101,48 @@ public class RestAdapter extends BaseAdapter {
     public void ViewCheckbox(boolean visible){
         vis = visible;
         this.notifyDataSetChanged();
+    }
+
+
+    @Override
+    public Filter getFilter() {
+        if (restFilter == null) restFilter = new RestFilter();
+        return restFilter;
+    }
+
+    private class RestFilter extends Filter{
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            FilterResults results = new FilterResults();
+            if (constraint == null || constraint.length() == 0) {
+                results.values = data;
+                results.count = data.size();
+            }
+            else {
+                ArrayList<Rest> restlist = new ArrayList<>();
+                for (Rest rest : data) {
+                    if (rest.name.contains(constraint.toString())) {
+                        restlist.add(rest);
+                    }
+                }
+                if (restlist.size() == 0){
+                    results.values = data;
+                    results.count = data.size();
+                }
+                else {
+                    results.values = restlist;
+                    results.count = restlist.size();
+                }
+            }
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            filtereddata = (ArrayList<Rest>) results.values;
+            if (results.count > 0) notifyDataSetChanged();
+            else notifyDataSetInvalidated();
+        }
     }
 }

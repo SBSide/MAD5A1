@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class RMain3Activity extends AppCompatActivity {
-    TextView m1,m2,m3,tel,url,dat;
+    TextView m0,m1,m2,m3,tel,url,dat;
     ImageView img;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +21,7 @@ public class RMain3Activity extends AppCompatActivity {
         if(info.catnumber == 1) img.setImageResource(R.drawable.chicken);
         else if(info.catnumber == 2) img.setImageResource(R.drawable.pizza);
         else img.setImageResource(R.drawable.hamburger);
+        m0.setText(info.name);
         m1.setText(info.menu.get(0));
         m2.setText(info.menu.get(1));
         m3.setText(info.menu.get(2));
@@ -31,6 +32,7 @@ public class RMain3Activity extends AppCompatActivity {
 
     public void init(){
         img = (ImageView) findViewById(R.id.imgno);
+        m0 = (TextView) findViewById(R.id.txtname);
         m1 = (TextView) findViewById(R.id.etmenu1);
         m2 = (TextView) findViewById(R.id.etmenu2);
         m3 = (TextView) findViewById(R.id.etmenu3);
